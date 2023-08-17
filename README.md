@@ -1,6 +1,6 @@
 # datem
 ## Python script for bulk changing file creation and modification time.
-#### Current version: 1.0.0 / build: dtm-17082023REV0
+#### Current version: 1.0.0 / build: dtm-17082023REV1
 ### Requirements
 - Python 3.11
 - pip3 
