@@ -3,7 +3,7 @@ import datetime
 import filedate
 
 version = "1.0.0"
-build = "dtm-17082023REV0"
+build = "dtm-17082023REV1"
 
 # function for displaying header
 def showHeader():
@@ -25,9 +25,10 @@ def prepareFileList(filePath):
     return fileList
 
 
+
 # function for changing file time
 # accepted date format is YYYY-MM-DD
-def changeFileTime(filePath, newCreationTime, newModificationTime):
+def changeFileTime(filePath, newCreationTime, newModificationTime, previewFlag):
     try:
         currentFile = filedate.File(filePath)
         
@@ -47,10 +48,14 @@ def changeFileTime(filePath, newCreationTime, newModificationTime):
         print(filePath + " time set to: " + creationTimeString + " | " + modificationTimeString)
 
         # setting new time for given file
-        currentFile.set(
-            created = creationTimeString,
-            modified = modificationTimeString,
-        )
+        if ( previewFlag == False):
+            currentFile.set(
+                created = creationTimeString,
+                modified = modificationTimeString,
+            )
+            print(filePath + " time was set to: " + creationTimeString + " | " + modificationTimeString)
+        else:
+            print(filePath + "was: " + creationTimeString + ",going to be: " + modificationTimeString)
         
     except Exception as e:
         print("Error changing file time: " + str(e))
@@ -76,7 +81,17 @@ if __name__ == "__main__":
         print("Empty directory path")
         exit()
     else:
-        # iterating through file list
-        for fileList_item in fileList:
-            # changing file time
-            changeFileTime(fileList_item, newCreationTime, newModificationTime)
+        
+        print("Showing work preview:")
+        # showing work preview
+        for fileList_item in fileList: # iterating through file list
+            changeFileTime(fileList_item, newCreationTime, newModificationTime,True)
+
+        # checking if user wants to confirm changes
+        user_input = input("To confirm changes type 'yes':")
+        if ( user_input == "yes" ):
+            for fileList_item in fileList: # iterating through file list
+                # changing file time
+                changeFileTime(fileList_item, newCreationTime, newModificationTime,false)
+        else:
+            print("Canceled by user")
